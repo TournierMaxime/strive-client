@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx", // ou "react" si plus ancien
+    "lib": ["dom", "esnext"], // important pour JSX
+    "moduleResolution": "node", // ou "bundler" si tu es sur Next/Vite
+    "esModuleInterop": true,
+    "strict": true
+  },
+  "include": ["src"]
+}

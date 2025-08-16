@@ -1,0 +1,15 @@
+services:
+  server:
+    container_name: strive-client
+    build:
+      context: .
+      dockerfile: node.Dockerfile
+    working_dir: /var/app
+    command: npm start
+    environment:
+      - PORT=${PORT}
+      - REACT_APP_STRIVE_API=${REACT_APP_STRIVE_API}
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - .:/var/app
