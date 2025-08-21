@@ -4,7 +4,7 @@ class StriveService {
   private http = http
 
   async getActivities(params?: { offset?: number; limit?: number }) {
-    const { data } = await http.post("/activities", params)
+    const { data } = await this.http.post("/activities", params)
     return data
   }
 }
