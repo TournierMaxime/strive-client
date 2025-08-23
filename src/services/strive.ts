@@ -7,6 +7,16 @@ class StriveService {
     const { data } = await this.http.post("/activities", params)
     return data
   }
+
+  async getActivity(activity_id: string) {
+    const { data } = await this.http.get(`/activities/${activity_id}`)
+    return data
+  }
+
+  async updateActivities() {
+    const { data } = await this.http.post("/activities/update")
+    return data
+  }
 }
 
 export const striveApi = new StriveService()
