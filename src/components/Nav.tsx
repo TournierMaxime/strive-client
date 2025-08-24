@@ -6,6 +6,12 @@ import {
   Box,
   Drawer,
   Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Button,
+  ListItemButton,
+  CssBaseline,
 } from "@mui/material"
 import { APP_NAME } from "../constants"
 import { Link } from "react-router-dom"
@@ -19,19 +25,35 @@ export default function Nav() {
     setMobileOpen((prevState) => !prevState)
   }
 
+  const navItems = [{ key: 0, name: "Activities", path: "/activities" }]
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         {APP_NAME}
       </Typography>
       <Divider />
+      <List>
+        {navItems.map((navItem) => {
+          return (
+            <ListItem key={navItem.key} disablePadding>
+              <Link to={navItem.path}>
+                <ListItemButton sx={{ textAlign: "center" }}>
+                  <ListItemText>{navItem.name}</ListItemText>
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          )
+        })}
+      </List>
     </Box>
   )
 
   return (
-    <Fragment>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
       <AppBar component="nav">
-        <Toolbar>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <Link
             style={{ textDecoration: "none", color: "#fff", cursor: "pointer" }}
             to={"/"}
@@ -47,6 +69,13 @@ export default function Nav() {
               {APP_NAME}
             </Typography>
           </Link>
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            {navItems.map((navItem) => (
+              <Link key={navItem.key} to={navItem.path}>
+                <Button sx={{ color: "#fff" }}>{navItem.name}</Button>
+              </Link>
+            ))}
+          </Box>
         </Toolbar>
       </AppBar>
       <nav style={{ marginBottom: "4em" }}>
@@ -68,6 +97,6 @@ export default function Nav() {
           {drawer}
         </Drawer>
       </nav>
-    </Fragment>
+    </Box>
   )
 }

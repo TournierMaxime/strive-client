@@ -1,17 +1,14 @@
-import BasicStats from "../components/BasicStats"
-import PercentFCE from "../components/PercentFCE"
-import Activities from "../components/Activities"
-import TrainingZone from "../components/TrainingZone"
-import Button from "../components/Button"
+import { Fragment } from "react"
+import BasicStats from "../features/activity/components/BasicStats"
+import PercentFCE from "../features/activity/components/PercentFCE"
+import TrainingZone from "../features/activity/components/TrainingZone"
 
 export default function Home() {
   return (
-    <div style={{ maxWidth: "1440px", margin: "auto" }}>
-      <Button title="Sync" />
+    <Fragment>
       <BasicStats />
       <TrainingZone />
       <PercentFCE />
-      <Activities />
-    </div>
+    </Fragment>
   )
 }
