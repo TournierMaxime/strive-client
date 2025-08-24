@@ -1,19 +1,16 @@
 import "./App.css"
-import BasicStats from "./components/BasicStats"
-import PercentFCE from "./components/PercentFCE"
-import Activities from "./components/Activities"
-import TrainingZone from "./components/TrainingZone"
-import Button from "./components/Button"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Home from "./pages/Home"
+import OneActivity from "./pages/OneActivity"
 
 function App() {
   return (
-    <div style={{ maxWidth: "1440px", margin: "auto" }}>
-      <Button />
-      <BasicStats />
-      <TrainingZone />
-      <PercentFCE />
-      <Activities />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/activity/:id" element={<OneActivity />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

@@ -99,6 +99,7 @@ export default function Activities() {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Distance (km)</TableCell>
               <TableCell>Moving Time (H:M:S)</TableCell>
@@ -116,6 +117,11 @@ export default function Activities() {
               return (
                 <TableBody key={activity.activity_id}>
                   <TableRow>
+                    <TableCell>
+                      <a href={`/activity/${activity.activity_id}`}>
+                        {activity.activity_id}
+                      </a>
+                    </TableCell>
                     <TableCell
                       style={{
                         paddingTop: "1em",
