@@ -7,7 +7,7 @@ import Button from "../components/Button"
 export default function Home() {
   return (
     <div style={{ maxWidth: "1440px", margin: "auto" }}>
-      <Button />
+      <Button title="Sync" />
       <BasicStats />
       <TrainingZone />
       <PercentFCE />

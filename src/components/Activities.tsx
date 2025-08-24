@@ -21,7 +21,7 @@ interface Props {
   }
 }
 
-type Activity = {
+export type Activity = {
   activity_id: string
   name: string
   description: null

@@ -7,7 +7,7 @@ type Props = {
   message: string | null
 }
 
-export default function Button() {
+export default function Button({ title }: { title: string }) {
   const [data, setData] = useState<Props>()
   const handleUpdate = async () => {
     const response = await striveApi.updateActivities()
@@ -24,7 +24,7 @@ export default function Button() {
           variant="outlined"
           onClick={handleUpdate}
         >
-          Update
+          {title}
         </Btn>
       )}
     </Fragment>

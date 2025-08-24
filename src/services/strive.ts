@@ -10,7 +10,7 @@ class StriveService {
 
   async getActivity(activity_id: string) {
     const { data } = await this.http.get(`/activities/${activity_id}`)
-    return data
+    return data.activity
   }
 
   async getActivityLaps(activity_id: string) {
