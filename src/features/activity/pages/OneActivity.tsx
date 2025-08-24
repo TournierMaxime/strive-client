@@ -7,6 +7,7 @@ import ActivityTable from "../components/ActivityTable"
 import BreadCrumb from "../../../components/BreadCrumb"
 import LapsActivity from "../components/LapsActivity"
 import moment from "moment"
+import ZoneTimeChart from "../components/charts/ZoneTimeChart"
 
 export default function OneActivity() {
   const { id } = useParams<{ id: string | undefined }>()
@@ -33,9 +34,7 @@ export default function OneActivity() {
     {
       key: 1,
       path: `/activity/${activity && activity?.activity_id}`,
-      name: `${activity && activity.name} (${
-        activity && moment(activity?.start_time).format("DD/MM/YYYY")
-      })`,
+      name: `${activity && activity.name}`,
     },
   ]
 
@@ -43,6 +42,7 @@ export default function OneActivity() {
     <Fragment>
       <BreadCrumb items={breadCrumbItems} />
       <ActivityTable activity={activity} />
+      <ZoneTimeChart data={activity} />
       <LapsActivity id={id} />
       <RecordChart id={id} />
     </Fragment>

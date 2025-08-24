@@ -71,11 +71,6 @@ export default function Activities() {
                 <TableCell>Distance (km)</TableCell>
                 <TableCell>Moving Time (H:M:S)</TableCell>
                 <TableCell>Date</TableCell>
-                <TableCell>Time</TableCell>
-                <TableCell>Avr HR (bpm)</TableCell>
-                <TableCell>Max HR (bpm)</TableCell>
-                <TableCell>Avr Speed (km/h)</TableCell>
-                <TableCell>Max Speed (km/h)</TableCell>
               </TableRow>
             </TableHead>
             {data &&
@@ -98,20 +93,13 @@ export default function Activities() {
                       >
                         {activity.name}
                       </TableCell>
-                      <TableCell>{activity.distance.toFixed(2)}</TableCell>
+                      <TableCell>
+                        {activity.distance?.toFixed(2) ?? "null"}
+                      </TableCell>
                       <TableCell>{movingTime[0]}</TableCell>
                       <TableCell>
                         {moment(activity.start_time).format("DD/MM/YYYY")}
                       </TableCell>
-                      <TableCell>
-                        {moment(activity.start_time).format("HH:mm a") +
-                          " to " +
-                          moment(activity.stop_time).format("HH:mm a")}
-                      </TableCell>
-                      <TableCell>{activity.avg_hr}</TableCell>
-                      <TableCell>{activity.max_hr}</TableCell>
-                      <TableCell>{activity.avg_speed.toFixed(2)}</TableCell>
-                      <TableCell>{activity.max_speed.toFixed(2)}</TableCell>
                     </TableRow>
                   </TableBody>
                 )

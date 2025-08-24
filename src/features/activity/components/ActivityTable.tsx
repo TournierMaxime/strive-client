@@ -48,10 +48,11 @@ export default function dataTable({ activity }: { activity: Activity }) {
             <TableRow>
               <TableCell>Distance (km/h)</TableCell>
               <TableCell>Moving Time (H:M:S)</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Time</TableCell>
               <TableCell>Calories</TableCell>
               <TableCell>Avg HR (hrm)</TableCell>
               <TableCell>Max HR (hrm)</TableCell>
-              <TableCell>Zones HR Time (H:M:S)</TableCell>
               <TableCell>Avg Speed (km/h)</TableCell>
               <TableCell>Max Speed (km/h)</TableCell>
             </TableRow>
@@ -59,22 +60,27 @@ export default function dataTable({ activity }: { activity: Activity }) {
 
           <TableBody>
             <TableRow>
-              <TableCell>{activity.distance.toFixed(1)}</TableCell>
+              <TableCell>
+                {activity.distance.toFixed(1) ?? activity.distance}
+              </TableCell>
               <TableCell>{movingTime[0]}</TableCell>
+              <TableCell>
+                {moment(activity.start_time).format("DD/MM/YYYY")}
+              </TableCell>
+              <TableCell>
+                {moment(activity.start_time).format("HH:mm a") +
+                  " to " +
+                  moment(activity.stop_time).format("HH:mm a")}
+              </TableCell>
               <TableCell>{activity.calories}</TableCell>
               <TableCell>{activity.avg_hr}</TableCell>
               <TableCell>{activity.max_hr}</TableCell>
-              {zonesHRTime.map((zone) => {
-                return (
-                  <TableRow key={zone.key}>
-                    <TableCell>{zone.hrm}</TableCell>
-                    <TableCell>{zone.time}</TableCell>
-                  </TableRow>
-                )
-              })}
-
-              <TableCell>{activity.avg_speed.toFixed(2)}</TableCell>
-              <TableCell>{activity.max_speed.toFixed(2)}</TableCell>
+              <TableCell>
+                {activity.avg_speed.toFixed(2) ?? activity.avg_speed}
+              </TableCell>
+              <TableCell>
+                {activity.max_speed.toFixed(2) ?? activity.max_speed}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
