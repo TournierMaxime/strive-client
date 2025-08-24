@@ -6,7 +6,6 @@ import RecordChart from "../components/RecordChart"
 import ActivityTable from "../components/ActivityTable"
 import BreadCrumb from "../../../components/BreadCrumb"
 import LapsActivity from "../components/LapsActivity"
-import moment from "moment"
 import ZoneTimeChart from "../components/charts/ZoneTimeChart"
 
 export default function OneActivity() {
