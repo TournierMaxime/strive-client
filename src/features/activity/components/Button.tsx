@@ -5,29 +5,40 @@ import Alert from "@mui/material/Alert"
 import { Downloading, Sync } from "@mui/icons-material"
 
 type Props = {
-  message: string | null
+  message?: string | null
+  isLoading: boolean
+  error?: {
+    message?: string
+  }
 }
 
 export default function Button({ title }: { title: string }) {
   const [data, setData] = useState<Props>()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string>("")
 
   const handleUpdate = async () => {
     try {
-      setIsLoading(true)
+      setData({
+        isLoading: true,
+      })
       const response = await activityService.updateActivities()
-      setData(response)
+      setData({
+        message: response.message,
+        isLoading: false,
+      })
     } catch (error: any) {
       console.error(error)
-      setIsLoading(false)
-      setError(error.message)
+      setData({
+        isLoading: false,
+        error: error.message,
+      })
     } finally {
-      setIsLoading(false)
+      setData({
+        isLoading: false,
+      })
     }
   }
 
-  if (isLoading) {
+  if (data && data?.isLoading) {
     return (
       <Btn
         startIcon={<Downloading />}
@@ -44,8 +55,8 @@ export default function Button({ title }: { title: string }) {
     return <Alert severity="success">{data.message}</Alert>
   }
 
-  if (error) {
-    return <Alert severity="error">{error}</Alert>
+  if (data && data.error) {
+    return <Alert severity="error">{data.error.message}</Alert>
   }
 
   return (

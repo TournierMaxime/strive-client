@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from "react"
-import { Laps } from "../types/activity"
+import { Lap, Laps } from "../types/activity"
 import {
   TableContainer,
   Table,
@@ -43,7 +43,7 @@ export default function LapsActivity({ id }: { id: string | undefined }) {
               </TableRow>
             </TableHead>
             {lapsActivity &&
-              lapsActivity.activity.map((activity) => {
+              lapsActivity.activity.map((activity: Lap) => {
                 const movingTime = activity.moving_time.split(".")
                 return (
                   <TableBody key={activity.lap}>

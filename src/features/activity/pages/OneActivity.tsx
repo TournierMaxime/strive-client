@@ -6,9 +6,10 @@ import BreadCrumb from "../../../components/BreadCrumb"
 import Title from "../../../components/Title"
 import moment from "moment"
 import Loading from "../../../components/Loading"
+import { Alert } from "@mui/material"
+import ActivityTable from "../components/ActivityTable"
 
 const RecordChart = lazy(() => import("../components/RecordChart"))
-const ActivityTable = lazy(() => import("../components/ActivityTable"))
 const LapsActivity = lazy(() => import("../components/LapsActivity"))
 const ZoneTimeChart = lazy(() => import("../components/charts/ZoneTimeChart"))
 
@@ -28,16 +29,16 @@ function OneActivity({ id }: { id: string }) {
   const [activity, setActivity] = useState<Activity>()
 
   const fetchData = async () => {
-    if (!id) return
-    const activity = await activityService.getActivity(id)
-
-    setActivity(activity)
+    const response = await activityService.getActivity(id)
+    setActivity(response)
   }
 
   useEffect(() => {
     fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+  if (!activity) return <Alert severity="warning">No activity founded</Alert>
 
   const breadCrumbItems = [
     {
@@ -47,12 +48,10 @@ function OneActivity({ id }: { id: string }) {
     },
     {
       key: 1,
-      path: `/activity/${activity && activity?.activity_id}`,
-      name: `${activity && activity.name}`,
+      path: `/activity/${activity.activity_id}`,
+      name: `${activity.name}`,
     },
   ]
-
-  if (!activity) return null
 
   return (
     <Fragment>
@@ -62,7 +61,7 @@ function OneActivity({ id }: { id: string }) {
         )}`}
       />
       <BreadCrumb items={breadCrumbItems} />
-      <ActivityTable activity={activity} />
+      <ActivityTable data={activity} />
       <ZoneTimeChart data={activity} />
       <LapsActivity id={id} />
       <RecordChart id={id} />

@@ -6,6 +6,7 @@ import {
   TableBody,
   TableCell,
   Card,
+  CardHeader,
 } from "@mui/material"
 import { trainWithCardiacFrequency } from "../../../utils/TrainWithCardiacFrequency"
 
@@ -32,14 +33,13 @@ export default function PercentFCE() {
 
   return (
     <Card raised sx={{ marginTop: "1em", marginBottom: "1em" }}>
+      <CardHeader
+        slotProps={{ title: { fontSize: "1em" } }}
+        title="Pourcentage de la Fréquence cardiaque d'entrainement"
+      />
       <TableContainer>
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>
-                Pourcentage de la Fréquence cardiaque d'entrainement
-              </TableCell>
-            </TableRow>
             <TableRow>{tableHeadTenToTen()}</TableRow>
           </TableHead>
           <TableBody>

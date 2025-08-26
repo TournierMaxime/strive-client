@@ -10,8 +10,8 @@ import {
 import { Activity } from "../types/activity"
 import moment from "moment"
 
-export default function dataTable({ activity }: { activity: Activity }) {
-  const movingTime = activity.moving_time.split(".")
+export default function dataTable({ data }: { data: Activity }) {
+  const movingTime = data.moving_time.split(".")
   return (
     <Card raised sx={{ marginTop: "1em", marginBottom: "1em" }}>
       <TableContainer>
@@ -32,26 +32,24 @@ export default function dataTable({ activity }: { activity: Activity }) {
 
           <TableBody>
             <TableRow>
-              <TableCell>
-                {activity.distance.toFixed(1) ?? activity.distance}
-              </TableCell>
+              <TableCell>{data.distance.toFixed(1) ?? data.distance}</TableCell>
               <TableCell>{movingTime[0]}</TableCell>
               <TableCell>
-                {moment(activity.start_time).format("DD/MM/YYYY")}
+                {moment(data.start_time).format("DD/MM/YYYY")}
               </TableCell>
               <TableCell>
-                {moment(activity.start_time).format("HH:mm a") +
+                {moment(data.start_time).format("HH:mm a") +
                   " to " +
-                  moment(activity.stop_time).format("HH:mm a")}
+                  moment(data.stop_time).format("HH:mm a")}
               </TableCell>
-              <TableCell>{activity.calories}</TableCell>
-              <TableCell>{activity.avg_hr}</TableCell>
-              <TableCell>{activity.max_hr}</TableCell>
+              <TableCell>{data.calories}</TableCell>
+              <TableCell>{data.avg_hr}</TableCell>
+              <TableCell>{data.max_hr}</TableCell>
               <TableCell>
-                {activity.avg_speed.toFixed(2) ?? activity.avg_speed}
+                {data.avg_speed.toFixed(2) ?? data.avg_speed}
               </TableCell>
               <TableCell>
-                {activity.max_speed.toFixed(2) ?? activity.max_speed}
+                {data.max_speed.toFixed(2) ?? data.max_speed}
               </TableCell>
             </TableRow>
           </TableBody>
