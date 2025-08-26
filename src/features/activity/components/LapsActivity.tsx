@@ -48,7 +48,7 @@ export default function LapsActivity({ id }: { id: string | undefined }) {
                 return (
                   <TableBody key={activity.lap}>
                     <TableRow>
-                      <TableCell>Lap {activity.lap++}</TableCell>
+                      <TableCell>Lap {activity.lap}</TableCell>
                       <TableCell>{activity.distance.toFixed(1)}</TableCell>
                       <TableCell>{movingTime[0]}</TableCell>
                       <TableCell>{activity.calories}</TableCell>
