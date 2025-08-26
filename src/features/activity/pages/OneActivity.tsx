@@ -1,15 +1,29 @@
 import { useParams } from "react-router-dom"
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useEffect, useState, lazy, Suspense } from "react"
 import { activityService } from "../services/activity"
 import { Activity } from "../types/activity"
-import RecordChart from "../components/RecordChart"
-import ActivityTable from "../components/ActivityTable"
 import BreadCrumb from "../../../components/BreadCrumb"
-import LapsActivity from "../components/LapsActivity"
-import ZoneTimeChart from "../components/charts/ZoneTimeChart"
+import Title from "../../../components/Title"
+import moment from "moment"
 
-export default function OneActivity() {
-  const { id } = useParams<{ id: string | undefined }>()
+const RecordChart = lazy(() => import("../components/RecordChart"))
+const ActivityTable = lazy(() => import("../components/ActivityTable"))
+const LapsActivity = lazy(() => import("../components/LapsActivity"))
+const ZoneTimeChart = lazy(() => import("../components/charts/ZoneTimeChart"))
+
+export default function OneActivityRoute() {
+  const { id } = useParams<{ id?: string }>()
+
+  if (!id) return null
+
+  return (
+    <Suspense fallback={<div style={{ padding: 16 }}>Chargement…</div>}>
+      <OneActivity id={id} />
+    </Suspense>
+  )
+}
+
+function OneActivity({ id }: { id: string }) {
   const [activity, setActivity] = useState<Activity>()
 
   const fetchData = async () => {
@@ -37,13 +51,20 @@ export default function OneActivity() {
     },
   ]
 
-  return activity ? (
+  if (!activity) return null
+
+  return (
     <Fragment>
+      <Title
+        title={`${activity.name} - ${moment(activity.start_time).format(
+          "DD/MM/YYYY"
+        )}`}
+      />
       <BreadCrumb items={breadCrumbItems} />
       <ActivityTable activity={activity} />
       <ZoneTimeChart data={activity} />
       <LapsActivity id={id} />
       <RecordChart id={id} />
     </Fragment>
-  ) : null
+  )
 }

@@ -7,13 +7,14 @@ import {
   TableRow,
   TableBody,
   TableCell,
-  TablePagination,
   Card,
 } from "@mui/material"
 import { activityService } from "../services/activity"
 import { Activity } from "../types/activity"
 import Button from "../components/Button"
 import BreadCrumb from "../../../components/BreadCrumb"
+import ActivityPagination from "../components/ActivityPagination"
+import Title from "../../../components/Title"
 
 interface Props {
   activities: Activity[]
@@ -27,7 +28,10 @@ interface Props {
 export default function Activities() {
   const [data, setData] = useState<Props>()
 
-  const fetchData = async (opts?: { offset?: number; limit?: number }) => {
+  const fetchData = async (opts?: {
+    offset?: number
+    limit?: number
+  }): Promise<void> => {
     const limit = opts?.limit ?? data?.meta.limit ?? 10
     const offset = opts?.offset ?? data?.meta.offset ?? 0
     const response = await activityService.getActivities({ offset, limit })
@@ -57,8 +61,42 @@ export default function Activities() {
     },
   ]
 
+  const renderItem = () => {
+    if (!data) return null
+
+    return data.activities.map((activity) => {
+      const movingTime = activity.moving_time.split(".") // take first index to remove ms
+      return (
+        <TableBody key={activity.activity_id}>
+          <TableRow>
+            <TableCell>
+              <a href={`/activity/${activity.activity_id}`}>
+                {activity.activity_id}
+              </a>
+            </TableCell>
+            <TableCell
+              style={{
+                paddingTop: "1em",
+                paddingBottom: "1em",
+                paddingRight: "1em",
+              }}
+            >
+              {activity.name}
+            </TableCell>
+            <TableCell>{activity.distance?.toFixed(2) ?? "null"}</TableCell>
+            <TableCell>{movingTime[0]}</TableCell>
+            <TableCell>
+              {moment(activity.start_time).format("DD/MM/YYYY")}
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      )
+    })
+  }
+
   return (
     <Fragment>
+      <Title title="Activities" />
       <BreadCrumb items={breadCrumbItems} />
       <Card raised sx={{ marginTop: "1em", marginBottom: "1em" }}>
         <Button title="Sync Data" />
@@ -73,53 +111,14 @@ export default function Activities() {
                 <TableCell>Date</TableCell>
               </TableRow>
             </TableHead>
-            {data &&
-              data.activities.map((activity) => {
-                const movingTime = activity.moving_time.split(".") // take first index to remove ms
-                return (
-                  <TableBody key={activity.activity_id}>
-                    <TableRow>
-                      <TableCell>
-                        <a href={`/activity/${activity.activity_id}`}>
-                          {activity.activity_id}
-                        </a>
-                      </TableCell>
-                      <TableCell
-                        style={{
-                          paddingTop: "1em",
-                          paddingBottom: "1em",
-                          paddingRight: "1em",
-                        }}
-                      >
-                        {activity.name}
-                      </TableCell>
-                      <TableCell>
-                        {activity.distance?.toFixed(2) ?? "null"}
-                      </TableCell>
-                      <TableCell>{movingTime[0]}</TableCell>
-                      <TableCell>
-                        {moment(activity.start_time).format("DD/MM/YYYY")}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )
-              })}
+            {renderItem()}
           </Table>
-          <TablePagination
-            style={{ display: "flex", justifyContent: "center" }}
-            component="div"
-            count={data?.meta.total ?? -1} // -1 si ton API ne renvoie pas le total
+          <ActivityPagination
+            count={data?.meta.total ?? -1}
             page={page}
             rowsPerPage={rowsPerPage}
-            onPageChange={(_, newPage) => {
-              const nextOffset = newPage * rowsPerPage
-              fetchData({ offset: nextOffset, limit: rowsPerPage })
-            }}
-            onRowsPerPageChange={(e) => {
-              const newLimit = parseInt(e.target.value, 10)
-              fetchData({ offset: 0, limit: newLimit }) // reset à la première page
-            }}
             rowsPerPageOptions={[10, 25, 50, 100]}
+            fetchData={fetchData}
           />
         </TableContainer>
       </Card>
