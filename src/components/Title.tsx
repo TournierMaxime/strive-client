@@ -1,7 +1,3 @@
 export default function Title({ title }: { title: string }) {
-  return (
-    <head>
-      <title>{title}</title>
-    </head>
-  )
+  return <title>{title}</title>
 }
