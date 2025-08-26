@@ -8,10 +8,15 @@ import {
   TableBody,
   TableCell,
   Card,
+  Button,
 } from "@mui/material"
 import { activityService } from "../services/activity"
+import { Delete } from "@mui/icons-material"
+import DeleteLapActivity from "../utils/DeleteLapActivity"
+import useHandleLapActivity from "../hooks/useHandleLapActivity"
 
-export default function LapsActivity({ id }: { id: string | undefined }) {
+export default function LapsActivity({ id }: { id: string }) {
+  const { handleOpen, ...modalState } = useHandleLapActivity()
   const [lapsActivity, setLapsActivity] = useState<Laps>()
 
   const fetchData = async () => {
@@ -25,6 +30,7 @@ export default function LapsActivity({ id }: { id: string | undefined }) {
     fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
   return (
     <Fragment>
       <Card raised sx={{ marginTop: "1em", marginBottom: "1em" }}>
@@ -40,6 +46,7 @@ export default function LapsActivity({ id }: { id: string | undefined }) {
                 <TableCell>Max HR (hrm)</TableCell>
                 <TableCell>Avg Speed (km/h)</TableCell>
                 <TableCell>Max Speed (km/h)</TableCell>
+                <TableCell>Delete</TableCell>
               </TableRow>
             </TableHead>
             {lapsActivity &&
@@ -56,6 +63,16 @@ export default function LapsActivity({ id }: { id: string | undefined }) {
                       <TableCell>{activity.max_hr}</TableCell>
                       <TableCell>{activity.avg_speed.toFixed(2)}</TableCell>
                       <TableCell>{activity.max_speed.toFixed(2)}</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          endIcon={<Delete />}
+                          onClick={() => handleOpen(activity.lap)}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 )
@@ -63,6 +80,11 @@ export default function LapsActivity({ id }: { id: string | undefined }) {
           </Table>
         </TableContainer>
       </Card>
+      <DeleteLapActivity
+        id={id}
+        setLapsActivity={setLapsActivity}
+        {...modalState}
+      />
     </Fragment>
   )
 }

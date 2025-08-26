@@ -43,6 +43,28 @@ class ActivityService {
     )
     return data
   }
+
+  async patchActivity(
+    activity_id: string,
+    name: string
+  ): Promise<{ message: string }> {
+    const { data }: { data: { message: string } } = await this.http.patch(
+      `/activities/${activity_id}`,
+      { name }
+    )
+    return data
+  }
+
+  async deleteActivityLap(
+    activity_id: string,
+    lap: string
+  ): Promise<{ message: string }> {
+    const { data }: { data: { message: string } } = await this.http.post(
+      `/activities/${activity_id}/lap`,
+      { lap }
+    )
+    return data
+  }
 }
 
 export const activityService = new ActivityService()

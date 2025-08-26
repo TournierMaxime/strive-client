@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react"
+import { useState, useEffect, Fragment, Suspense } from "react"
 import moment from "moment"
 import {
   TableContainer,
@@ -15,6 +15,7 @@ import Button from "../components/Button"
 import BreadCrumb from "../../../components/BreadCrumb"
 import ActivityPagination from "../components/ActivityPagination"
 import Title from "../../../components/Title"
+import Loading from "../../../components/Loading"
 
 interface Props {
   activities: Activity[]
@@ -38,10 +39,15 @@ export default function Activities() {
     setData(response)
   }
 
-  const page = Math.floor(
-    ((data?.meta.offset ?? 0) as number) / ((data?.meta.limit ?? 1) as number)
-  )
-  const rowsPerPage = data?.meta.limit ?? 10
+  const offset: number = data?.meta.offset ?? 0
+
+  const limit: number = data?.meta.limit ?? 10
+
+  const count: number = data?.meta.total ?? -1
+
+  const page = Math.floor(offset / limit)
+
+  const rowsPerPage = limit
 
   useEffect(() => {
     fetchData()
@@ -98,30 +104,32 @@ export default function Activities() {
     <Fragment>
       <Title title="Activities" />
       <BreadCrumb items={breadCrumbItems} />
-      <Card raised sx={{ marginTop: "1em", marginBottom: "1em" }}>
-        <Button title="Sync Data" />
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Distance (km)</TableCell>
-                <TableCell>Moving Time (H:M:S)</TableCell>
-                <TableCell>Date</TableCell>
-              </TableRow>
-            </TableHead>
-            {renderItem()}
-          </Table>
-          <ActivityPagination
-            count={data?.meta.total ?? -1}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[10, 25, 50, 100]}
-            fetchData={fetchData}
-          />
-        </TableContainer>
-      </Card>
+      <Suspense fallback={<Loading />}>
+        <Card raised sx={{ marginTop: "1em", marginBottom: "1em" }}>
+          <Button title="Sync Data" />
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Distance (km)</TableCell>
+                  <TableCell>Moving Time (H:M:S)</TableCell>
+                  <TableCell>Date</TableCell>
+                </TableRow>
+              </TableHead>
+              {renderItem()}
+            </Table>
+            <ActivityPagination
+              count={count}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={[10, 25, 50, 100]}
+              fetchData={fetchData}
+            />
+          </TableContainer>
+        </Card>
+      </Suspense>
     </Fragment>
   )
 }

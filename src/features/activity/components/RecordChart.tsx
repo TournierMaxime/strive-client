@@ -42,7 +42,7 @@ export default function RecordChart({ id }: { id: string | undefined }) {
   return (
     <Card raised sx={{ marginTop: "1em", marginBottom: "1em", padding: "1em" }}>
       {activityRecords && (
-        <ResponsiveContainer width="100%" height={512}>
+        <ResponsiveContainer width="100%" height={256}>
           <LineChart data={activityRecords.chartData}>
             <CartesianGrid stroke="#ccc" />
             <XAxis

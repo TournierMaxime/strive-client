@@ -16,7 +16,7 @@ const ZoneTimeChart = lazy(() => import("../components/charts/ZoneTimeChart"))
 export default function OneActivityRoute() {
   const { id } = useParams<{ id?: string }>()
 
-  if (!id) return null
+  if (!id) return <Alert severity="warning">Activity not founded</Alert>
 
   return (
     <Suspense fallback={<Loading />}>
@@ -38,7 +38,21 @@ function OneActivity({ id }: { id: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
-  if (!activity) return <Alert severity="warning">No activity founded</Alert>
+  if (!activity)
+    return (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Alert
+          sx={{
+            marginTop: "1em",
+            width: "600px",
+            justifyContent: "center",
+          }}
+          severity="warning"
+        >
+          Activity not founded
+        </Alert>
+      </div>
+    )
 
   const breadCrumbItems = [
     {
@@ -48,6 +62,11 @@ function OneActivity({ id }: { id: string }) {
     },
     {
       key: 1,
+      path: `/activities`,
+      name: `Activities`,
+    },
+    {
+      key: 2,
       path: `/activity/${activity.activity_id}`,
       name: `${activity.name}`,
     },
