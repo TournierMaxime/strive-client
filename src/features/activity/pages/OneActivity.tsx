@@ -5,6 +5,7 @@ import { Activity } from "../types/activity"
 import BreadCrumb from "../../../components/BreadCrumb"
 import Title from "../../../components/Title"
 import moment from "moment"
+import Loading from "../../../components/Loading"
 
 const RecordChart = lazy(() => import("../components/RecordChart"))
 const ActivityTable = lazy(() => import("../components/ActivityTable"))
@@ -17,7 +18,7 @@ export default function OneActivityRoute() {
   if (!id) return null
 
   return (
-    <Suspense fallback={<div style={{ padding: 16 }}>Chargement…</div>}>
+    <Suspense fallback={<Loading />}>
       <OneActivity id={id} />
     </Suspense>
   )
