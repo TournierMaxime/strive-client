@@ -25,6 +25,8 @@ export default function Button({ title }: { title: string }) {
         message: response.message,
         isLoading: false,
       })
+
+      await activityService.getActivities()
     } catch (error: any) {
       console.error(error)
       setData({
